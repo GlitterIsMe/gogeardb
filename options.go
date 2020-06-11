@@ -10,18 +10,32 @@ const (
 
 // Options
 type Options struct {
-	c *C.leveldb_options_t
+	c      *C.leveldb_options_t
+	cmp    *Comparator
+	cache  *Cache
+	env    *Env
+	filter *FilterPolicy
 }
 
 func NewOptions() *Options {
 	return &Options{c: C.leveldb_options_create()}
 }
 
+func NewDefaultOptions() *Options {
+	opt := NewOptions()
+	opt.SetComparator(NewComparator())
+	opt.SetCache(NewCache(16 * 1024 * 1024))
+	opt.SetEnv(NewDefaultEnv())
+	return opt
+}
+
 func (opt *Options) SetComparator(cmp *Comparator) {
+	opt.cmp = cmp
 	C.leveldb_options_set_comparator(opt.c, cmp.c)
 }
 
 func (opt *Options) SetFilterPolicy(flt *FilterPolicy) {
+	opt.filter = flt
 	C.leveldb_options_set_filter_policy(opt.c, flt.c)
 }
 
@@ -38,6 +52,7 @@ func (opt *Options) SetParanoidChecks(paranoid bool) {
 }
 
 func (opt *Options) SetEnv(env *Env) {
+	opt.env = env
 	C.leveldb_options_set_env(opt.c, env.c)
 }
 
@@ -50,6 +65,7 @@ func (opt *Options) SetMaxOpenFiles(size uint) {
 }
 
 func (opt *Options) SetCache(cache *Cache) {
+	opt.cache = cache
 	C.leveldb_options_set_cache(opt.c, cache.c)
 }
 
@@ -66,6 +82,13 @@ func (opt *Options) SetCompression(compression int) {
 }
 
 func (opt *Options) Destroy() {
+	C.leveldb_options_destroy(opt.c)
+}
+
+func (opt *Options) DestroyDefault() {
+	opt.cmp.Destroy()
+	opt.cache.Destroy()
+	opt.env.Destroy()
 	C.leveldb_options_destroy(opt.c)
 }
 
