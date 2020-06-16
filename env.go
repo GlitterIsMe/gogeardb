@@ -14,3 +14,9 @@ func NewDefaultEnv() *Env {
 func (e *Env) Destroy() {
 	C.leveldb_env_destroy(e.c)
 }
+
+func NewDefaultHmEnv(hm *HmManager) *Env {
+	return &Env{
+		c: C.geardb_hm_env_create(hm.c),
+	}
+}

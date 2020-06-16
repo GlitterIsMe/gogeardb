@@ -81,6 +81,10 @@ func (opt *Options) SetCompression(compression int) {
 	C.leveldb_options_set_compression(opt.c, C.int(compression))
 }
 
+func (opt *Options) SetHmManager(hm *HmManager) {
+	C.leveldb_options_set_hmmanager(opt.c, hm.c)
+}
+
 func (opt *Options) Destroy() {
 	C.leveldb_options_destroy(opt.c)
 }

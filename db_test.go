@@ -12,14 +12,17 @@ func TestDB(t *testing.T) {
 	opt := NewOptions()
 	defer opt.Destroy()
 
-	env := NewDefaultEnv()
-	defer env.Destroy()
-
 	comparator := NewComparator()
 	defer comparator.Destroy()
 
 	cache := NewCache(16 * 1024 * 1024)
 	defer cache.Destroy()
+
+	hm := NewHmManager()
+	defer hm.Destroy()
+
+	env := NewDefaultHmEnv(hm)
+	defer env.Destroy()
 
 	opt.SetComparator(comparator)
 	opt.SetCreateIfMissing(true)
@@ -32,6 +35,7 @@ func TestDB(t *testing.T) {
 	opt.SetBlockSize(4096)
 	opt.SetBlockRestartInterval(16)
 	opt.SetCompression(SnappyCompression)
+	opt.SetHmManager(hm)
 
 	destroyDB := func() {
 		err := DestroyDB(opt, dbName)
