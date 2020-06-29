@@ -12,7 +12,7 @@ type Comparator struct {
 }
 
 func NewComparator() *Comparator {
-	return &Comparator{c: C.go_leveldb_create_comparator()}
+	return &Comparator{c: C.go_geardb_create_comparator()}
 }
 
 func (c *Comparator) Destroy() {
