@@ -1,4 +1,4 @@
-package goleveldb_wrapper
+package gogeardb
 
 // #include "stdlib.h"
 // #include "leveldb/c.h"

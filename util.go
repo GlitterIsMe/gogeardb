@@ -1,4 +1,4 @@
-package goleveldb_wrapper
+package gogeardb
 
 import (
 	"C"
