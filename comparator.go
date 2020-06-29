@@ -1,7 +1,7 @@
 package gogeardb
 
 // #include "leveldb/c.h"
-// #include "goleveldb.h"
+// #include "gogeardb.h"
 import "C"
 import (
 	"bytes"
@@ -19,17 +19,17 @@ func (c *Comparator) Destroy() {
 	C.leveldb_comparator_destroy(c.c)
 }
 
-//export go_leveldb_destructor
-func go_leveldb_destructor() {}
+//export go_geardb_destructor
+func go_geardb_destructor() {}
 
-//export go_leveldb_compare
-func go_leveldb_compare(state int, cKeyA *C.char, cLenA C.size_t, cKeyB *C.char, cLenB C.size_t) int {
+//export go_geardb_compare
+func go_geardb_compare(state int, cKeyA *C.char, cLenA C.size_t, cKeyB *C.char, cLenB C.size_t) int {
 	keyA := charToByte(cKeyA, cLenA)
 	keyB := charToByte(cKeyB, cLenB)
 	return bytes.Compare(keyA, keyB)
 }
 
-//export go_leveldb_name
-func go_leveldb_name(state int) *C.char {
+//export go_geardb_name
+func go_geardb_name(state int) *C.char {
 	return C.CString("go-leveldb-comparator")
 }
