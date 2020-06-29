@@ -1,10 +1,10 @@
 # leveldb-go-wrapper
-a simple go wrapper for leveldb
+a simple go wrapper for geardb
 
 ## Usage
-CGO_CFLAGS="-I/path/to/leveldb/include" /\
-CGO_LDFLAGS="-L/path/to/leveldb/lib -lleveldb" /\
-  go get github.com/GlitterIsMe/goleveldb_wrapper
+CGO_CFLAGS="-I/path/to/geardb/include" /\
+CGO_LDFLAGS="-L/path/to/geardb/lib -lgeardb" /\
+  go get github.com/GlitterIsMe/gogeardb
 
 ## Attention
 - Some interce has not been implemented, like WriteBatch::Iterator
